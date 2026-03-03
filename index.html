@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Josh Lougee: Marketing Portfolio</title>
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── Root palette ───────────────────────────────────────────── */
+    :root {
+      --navy:   #0d1b2a;
+      --dodger: #005a9c;   /* Dodger blue */
+      --accent: #ef3e42;   /* Dodger red  */
+      --light:  #f4f6f9;
+      --white:  #ffffff;
+      --text:   #2c2c2c;
+      --muted:  #6c757d;
+    }
+
+    /* ── Base ───────────────────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--white);
+    }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    a { color: var(--dodger); }
+    a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── Sidebar ────────────────────────────────────────────────── */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 30px;
+      z-index: 100;
+    }
+    #sidebar .profile-photo {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--dodger);
+      margin-bottom: 16px;
+      /* placeholder grey circle if no photo loaded */
+      background: #2a3a4d;
+    }
+    #sidebar h1 {
+      font-size: 1.25rem;
+      color: var(--white);
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+    #sidebar .tagline {
+      font-size: 0.75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--dodger);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    #sidebar nav ul {
+      list-style: none;
+      width: 100%;
+      padding: 0;
+    }
+    #sidebar nav ul li { margin-bottom: 6px; }
+    #sidebar nav ul li a {
+      display: block;
+      padding: 9px 16px;
+      border-radius: 6px;
+      color: #c8d6e5;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      transition: background .2s, color .2s;
+    }
+    #sidebar nav ul li a:hover,
+    #sidebar nav ul li a.active {
+      background: var(--dodger);
+      color: var(--white);
+      text-decoration: none;
+    }
+    #sidebar .sidebar-footer {
+      margin-top: auto;
+      font-size: 0.72rem;
+      color: #4a607a;
+      text-align: center;
+    }
+    #sidebar .social-icons a {
+      color: #7a9ab8;
+      margin: 0 6px;
+      font-size: 1rem;
+      transition: color .2s;
+    }
+    #sidebar .social-icons a:hover { color: var(--white); }
+
+    /* ── Main content ───────────────────────────────────────────── */
+    #main {
+      margin-left: 240px;
+      padding: 0;
+    }
+
+    /* ── Sections ───────────────────────────────────────────────── */
+    .section { padding: 64px 56px; }
+    .section:nth-child(odd) { background: var(--white); }
+    .section:nth-child(even) { background: var(--light); }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--dodger);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 28px;
+      color: var(--navy);
+    }
+
+    /* ── Hero / Welcome ─────────────────────────────────────────── */
+    #welcome {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 100%);
+      color: var(--white);
+      padding: 80px 56px;
+    }
+    #welcome .section-label { color: #5ba3d9; }
+    #welcome h2 { color: var(--white); font-size: 2.4rem; }
+    #welcome p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #c8d6e5;
+      max-width: 680px;
+    }
+
+    /* ── Skills accordion ───────────────────────────────────────── */
+    .accordion-btn {
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--navy);
+      padding: 14px 0;
+      width: 100%;
+      text-align: left;
+      border-bottom: 2px solid var(--dodger);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+    }
+    .accordion-btn:after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--dodger);
+      transition: transform .3s;
+    }
+    .accordion-btn.open:after { content: '−'; }
+    .accordion-body {
+      display: none;
+      padding: 16px 0 24px;
+    }
+    .accordion-body.show { display: block; }
+    .skill-list { columns: 2; list-style: none; padding: 0; }
+    .skill-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text); }
+    .skill-list li::before { content: "→  "; color: var(--dodger); }
+    .toolkit-list { list-style: none; padding: 0; }
+    .toolkit-list li { font-size: 0.85rem; padding: 4px 0; color: var(--text); border-bottom: 1px solid #eee; }
+    .toolkit-list li:last-child { border: none; }
+
+    /* ── Highlights ─────────────────────────────────────────────── */
+    .highlight-card {
+      background: var(--white);
+      border-left: 4px solid var(--dodger);
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .highlight-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 18px rgba(0,0,0,.1);
+    }
+    .highlight-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .highlight-card ul { list-style: none; padding: 0; margin: 0; }
+    .highlight-card ul li {
+      font-size: 0.85rem;
+      color: #444;
+      padding: 2px 0;
+    }
+    .highlight-card ul li::before { content: "✦  "; color: var(--accent); font-size: 0.7rem; }
+
+    /* ── Featured Work ──────────────────────────────────────────── */
+    .work-card {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 14px rgba(0,0,0,.08);
+      margin-bottom: 28px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.14);
+    }
+    .work-card .work-img {
+      width: 100%; height: 180px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #0d1b2a, #1a3a5c);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .work-card .work-img .placeholder-icon {
+      font-size: 2.5rem;
+      color: rgba(255,255,255,.35);
+    }
+    .work-card .work-body { padding: 20px; }
+    .work-card .work-meta { font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; }
+    .work-card h3 { font-size: 1rem; font-family: 'DM Sans'; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+    .work-card p  { font-size: 0.85rem; color: #555; margin-bottom: 14px; }
+    .btn-view {
+      display: inline-block;
+      padding: 7px 20px;
+      background: var(--dodger);
+      color: var(--white);
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background .2s;
+    }
+    .btn-view:hover { background: var(--accent); color: var(--white); text-decoration: none; }
+
+    /* ── Stats strip ────────────────────────────────────────────── */
+    #stats {
+      background: var(--dodger);
+      color: var(--white);
+      padding: 44px 56px;
+    }
+    .stat-box { text-align: center; }
+    .stat-box .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-box .stat-num span { color: #ffd700; }
+    .stat-box .stat-label { font-size: 0.78rem; letter-spacing: .08em; color: #c8d6e5; margin-top: 6px; text-transform: uppercase; }
+
+    /* ── Contact ─────────────────────────────────────────────────── */
+    #contact {
+      background: var(--navy);
+      color: var(--white);
+      padding: 64px 56px;
+      text-align: center;
+    }
+    #contact h2 { color: var(--white); margin-bottom: 12px; }
+    #contact p { color: #c8d6e5; margin-bottom: 28px; }
+    .btn-contact {
+      display: inline-block;
+      padding: 12px 36px;
+      background: var(--accent);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      transition: background .2s, transform .15s;
+    }
+    .btn-contact:hover {
+      background: #c4282c;
+      color: var(--white);
+      transform: scale(1.03);
+      text-decoration: none;
+    }
+
+    /* ── Resume badge ───────────────────────────────────────────── */
+    .btn-resume {
+      display: inline-block;
+      padding: 9px 24px;
+      border: 2px solid var(--dodger);
+      color: var(--dodger);
+      border-radius: 5px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: background .2s, color .2s;
+    }
+    .btn-resume:hover {
+      background: var(--dodger);
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    /* ── Mobile ──────────────────────────────────────────────────── */
+    #hamburger { display: none; }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 24px 20px;
+      }
+      #sidebar nav { width: 100%; }
+      #main { margin-left: 0; }
+      .section, #welcome, #stats, #contact { padding: 40px 24px; }
+      .skill-list { columns: 1; }
+      #hamburger { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────── SIDEBAR ─────────────────────────────── -->
+<div id="sidebar">
+  <!-- Replace profile.png with your actual photo filename -->
+  <img src="profile.png" alt="Josh Lougee" class="profile-photo"
+       onerror="this.style.display='none'; document.getElementById('initials-avatar').style.display='flex'"/>
+  <div id="initials-avatar" style="display:none; width:110px; height:110px; border-radius:50%;
+    background:#1a3a5c; border:3px solid #005a9c; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif; font-size:2rem; color:#fff; margin-bottom:16px;">JL</div>
+
+  <h1><strong>Josh Lougee</strong></h1>
+  <p class="tagline">Brand &amp; Digital Marketing</p>
+
+  <nav>
+    <ul>
+      <li><a href="#welcome"    class="nav-link active">Home</a></li>
+      <li><a href="#highlights" class="nav-link">Key Highlights</a></li>
+      <li><a href="#work"       class="nav-link">Featured Work</a></li>
+      <li><a href="#skills"     class="nav-link">Skills &amp; Toolkit</a></li>
+      <li><a href="#contact"    class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="social-icons mt-4 mb-3">
+    <a href="https://linkedin.com/in/joshualougee" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="https://instagram.com/joshualougee"   target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="mailto:josh.lougee@gmail.com"          title="Email"><i class="fas fa-envelope"></i></a>
+    <!-- Resume download — place JoshL_Resume.pdf in same repo folder -->
+    <a href="JoshL_Resume.pdf" target="_blank" title="Resume"><i class="fas fa-file-pdf"></i></a>
+  </div>
+
+  <a href="JoshL_Resume.pdf" target="_blank" class="btn-resume">Download Résumé</a>
+
+  <div class="sidebar-footer mt-4">
+    Echo Park, CA · (949) 705-9499
+  </div>
+</div><!-- /sidebar -->
+
+
+<!-- ─────────────────── MAIN CONTENT ────────────────────────── -->
+<div id="main">
+
+  <!-- WELCOME -->
+  <section id="welcome" class="section">
+    <p class="section-label">Welcome</p>
+    <h2>Hello! I'm Josh Lougee!</h2>
+    <p class="mt-3">
+      Performance-driven marketing professional with experience coordinating end-to-end multichannel
+      marketing campaigns. Proven in developing KPI-driven metrics, orchestrating creative strategy,
+      and translating data into actionable business decisions.
+    </p>
+    <p class="mt-3">
+      My journey spans the front office of the <strong>Los Angeles Dodgers</strong> — where I
+      architected a 38.5x ROAS influencer campaign, produced copy for a World Series postseason run,
+      and presented strategy directly to the Sr. VP of Marketing — to the <strong>Seattle Kraken</strong>
+      and the University of Washington Ice Hockey program, where I built the marketing function from
+      the ground up, growing audience reach 300%+.
+    </p>
+    <p class="mt-3">
+      Based in Echo Park, LA, I thrive at the intersection of creative storytelling and performance
+      analytics. When I'm not building campaigns, you'll find me at Dodger Stadium, exploring LA's
+      food scene, or deep-diving into sports business strategy.
+    </p>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div id="stats">
+    <div class="row text-center">
+      <div class="col-6 col-md-3 stat-box mb-3 mb-md-0">
+        <div class="stat-num">38<span>.5x</span></div>
+        <div class="stat-label">ROAS — Influencer Campaign</div>
+      </div>
+      <div class="col-6 col-md-3 stat-box mb-3 mb-md-0">
+        <div class="stat-num">9<span>M+</span></div>
+        <div class="stat-label">Impressions Delivered</div>
+      </div>
+      <div class="col-6 col-md-3 stat-box">
+        <div class="stat-num">$770<span>K</span></div>
+        <div class="stat-label">Earned Media Value</div>
+      </div>
+      <div class="col-6 col-md-3 stat-box">
+        <div class="stat-num">300<span>%+</span></div>
+        <div class="stat-label">Audience Reach Growth</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY HIGHLIGHTS -->
+  <section id="highlights" class="section">
+    <p class="section-label">What I've Done</p>
+    <h2>Key Highlights</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="highlight-card">
+          <h3><i class="fas fa-bullhorn mr-2" style="color:#005a9c"></i>Influencer &amp; Creator Marketing</h3>
+          <ul>
+            <li>38.5x ROAS on $20K budget — $770K earned media value</li>
+            <li>17 creators across lifestyle, sports &amp; entertainment</li>
+            <li>9M+ impressions · 370K+ engagements · 102 posts</li>
+            <li>Organic-first creator strategy with performance reporting</li>
+          </ul>
+        </div>
+
+        <div class="highlight-card">
+          <h3><i class="fas fa-chart-line mr-2" style="color:#005a9c"></i>Multichannel Campaign Execution</h3>
+          <ul>
+            <li>TV &amp; radio copy with iHeartMedia / SNLA partners</li>
+            <li>OOH billboard placement on Sunset Blvd corridor</li>
+            <li>In-stadium home-plate &amp; signage ad inventory</li>
+            <li>Full regular season + 2025 World Series postseason</li>
+          </ul>
+        </div>
+
+        <div class="highlight-card">
+          <h3><i class="fas fa-envelope-open-text mr-2" style="color:#005a9c"></i>Email &amp; Paid Digital</h3>
+          <ul>
+            <li>Meta/Instagram ads driving single-game &amp; group ticket conversion</li>
+            <li>Programmatic channels supporting sellout attendances</li>
+            <li>Google Analytics &amp; Klaviyo for A/B testing &amp; funnel optimization</li>
+            <li>15% fan engagement lift at Seattle Kraken via data-driven campaigns</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="highlight-card">
+          <h3><i class="fas fa-chart-bar mr-2" style="color:#005a9c"></i>Analytics &amp; Performance Reporting</h3>
+          <ul>
+            <li>Built KPI dashboards for influencer &amp; organic tactics</li>
+            <li>Best Overall Presentation — 2025 Dodgers Fellowship (20+ fellows)</li>
+            <li>Presented directly to Sr. VP Marketing &amp; Sr. Director Brand Marketing</li>
+            <li>Salesforce CRM data → actionable resource strategy at Kraken</li>
+          </ul>
+        </div>
+
+        <div class="highlight-card">
+          <h3><i class="fas fa-project-diagram mr-2" style="color:#005a9c"></i>Cross-Functional Project Management</h3>
+          <ul>
+            <li>8+ concurrent workstreams during World Series — zero critical failures</li>
+            <li>Liaison between Marketing, Partnerships, Broadcast &amp; Ops</li>
+            <li>VIP talent logistics: Lil Wayne, Takashi Murakami, Hello Kitty &amp; more</li>
+            <li>Managed 2 design interns + 1 photographer at UW Ice Hockey</li>
+          </ul>
+        </div>
+
+        <div class="highlight-card">
+          <h3><i class="fas fa-share-alt mr-2" style="color:#005a9c"></i>Social &amp; Content Strategy</h3>
+          <ul>
+            <li>300%+ audience reach growth at UW Ice Hockey</li>
+            <li>10,000+ fanbase Meta ad management with conversion dashboards</li>
+            <li>Social content calendars across full MLB regular season</li>
+            <li>Pepsi "Long Shot Contest" — $1.5M grassroots activation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED WORK -->
+  <section id="work" class="section">
+    <p class="section-label">What I've Done</p>
+    <h2>Featured Work</h2>
+
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img">
+            <span class="placeholder-icon"><i class="fas fa-users"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">2025 · Los Angeles Dodgers</p>
+            <h3>2025 Influencer Marketing Campaign</h3>
+            <p>End-to-end creator strategy delivering 9M+ impressions and $770K earned media value on a $20K budget — 38.5x ROAS.</p>
+            <!-- Link to a dedicated page or PDF case study when ready -->
+            <a href="JoshL_Resume.pdf" target="_blank" class="btn-view">View Résumé</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img">
+            <span class="placeholder-icon"><i class="fas fa-trophy"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">2025 · Los Angeles Dodgers</p>
+            <h3>World Series Multichannel Campaign</h3>
+            <p>Radio, TV, OOH, in-stadium signage, and social content calendar execution spanning a full season + 2025 World Series postseason run.</p>
+            <a href="JoshL_Resume.pdf" target="_blank" class="btn-view">View Résumé</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img">
+            <span class="placeholder-icon"><i class="fas fa-hockey-puck"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">2023–2024 · Seattle Kraken</p>
+            <h3>Fan Acquisition &amp; Digital Strategy</h3>
+            <p>Paid media planning, Salesforce CRM analysis, and data-driven presentation decks driving 15% fan engagement improvement.</p>
+            <a href="JoshL_Resume.pdf" target="_blank" class="btn-view">View Résumé</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img">
+            <span class="placeholder-icon"><i class="fas fa-ice-cream" style="font-size:2rem"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">2021–2023 · UW Ice Hockey</p>
+            <h3>300% Audience Reach Growth</h3>
+            <p>Built the full marketing function — social, email, Meta ads, and performance dashboards — growing a 10,000+ fanbase from scratch.</p>
+            <a href="JoshL_Resume.pdf" target="_blank" class="btn-view">View Résumé</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img">
+            <span class="placeholder-icon"><i class="fas fa-chart-pie"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">2025 · Los Angeles Dodgers</p>
+            <h3>Performance Reporting &amp; Executive Presentations</h3>
+            <p>Synthesized influencer KPIs and campaign data into executive narratives presented to Sr. VP of Marketing — earning Best Overall Presentation.</p>
+            <a href="JoshL_Resume.pdf" target="_blank" class="btn-view">View Résumé</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 — placeholder for future case study -->
+      <div class="col-md-4">
+        <div class="work-card">
+          <div class="work-img" style="background: linear-gradient(135deg,#1a3a5c,#ef3e42)">
+            <span class="placeholder-icon"><i class="fas fa-plus-circle"></i></span>
+          </div>
+          <div class="work-body">
+            <p class="work-meta">Coming Soon</p>
+            <h3>More Case Studies</h3>
+            <p>Additional campaign decks, analytics reports, and creative work samples will be added here. Reach out to request specific work samples.</p>
+            <a href="mailto:josh.lougee@gmail.com" class="btn-view">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS & TOOLKIT -->
+  <section id="skills" class="section">
+    <p class="section-label">Areas of Expertise</p>
+    <h2>Skills &amp; Toolkit</h2>
+
+    <!-- Soft / Core Skills accordion -->
+    <button class="accordion-btn" onclick="toggleAccordion(this, 'softSkills')">
+      Core Marketing Skills
+    </button>
+    <div id="softSkills" class="accordion-body show">
+      <ul class="skill-list">
+        <li>Digital Marketing</li>
+        <li>Campaign Development</li>
+        <li>Market Analytics</li>
+        <li>Email Marketing &amp; Automation</li>
+        <li>KPI Development &amp; Tracking</li>
+        <li>Partnerships &amp; Sponsorship</li>
+        <li>Budget Ownership</li>
+        <li>Account Management</li>
+        <li>User Optimization</li>
+        <li>Data Analytics &amp; Insight</li>
+        <li>Project Management</li>
+        <li>Influencer Marketing</li>
+        <li>Content Strategy</li>
+        <li>Performance Reporting</li>
+        <li>Cross-Functional Collaboration</li>
+        <li>Executive Presentations</li>
+      </ul>
+    </div>
+
+    <!-- Technical Toolkit accordion -->
+    <button class="accordion-btn mt-3" onclick="toggleAccordion(this, 'techToolkit')">
+      Technical Toolkit
+    </button>
+    <div id="techToolkit" class="accordion-body">
+      <ul class="toolkit-list">
+        <li><strong>Advertising &amp; Analytics:</strong> Google Ads, Google Analytics, Meta Ads Manager, Programmatic</li>
+        <li><strong>CRM &amp; Email:</strong> Salesforce, Klaviyo, HubSpot (exposure)</li>
+        <li><strong>Influencer &amp; Creator:</strong> CreatorIQ</li>
+        <li><strong>Data Visualization:</strong> Tableau, Google Data Studio</li>
+        <li><strong>Creative:</strong> Adobe Creative Cloud, Canva</li>
+        <li><strong>Project Management:</strong> Slack, Asana (exposure)</li>
+        <li><strong>AI &amp; Automation:</strong> Prototyping &amp; Prompting</li>
+        <li><strong>Platforms:</strong> TikTok, Instagram, Meta, Pinterest, X, Reddit, YouTube, Discord</li>
+      </ul>
+    </div>
+
+    <!-- Education -->
+    <button class="accordion-btn mt-3" onclick="toggleAccordion(this, 'education')">
+      Education
+    </button>
+    <div id="education" class="accordion-body">
+      <p><strong>Bachelor of Arts, Business Economics</strong><br/>
+      University of Washington Seattle · Seattle, WA</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label" style="color:#5ba3d9">Thanks for visiting! Let's chat.</p>
+    <h2>I'm open to new opportunities.</h2>
+    <p>Interested in working together on brand marketing, campaign strategy, influencer programs, or analytics? I'd love to connect.</p>
+    <a href="mailto:josh.lougee@gmail.com" class="btn-contact">
+      <i class="fas fa-envelope mr-2"></i>Contact Me
+    </a>
+    <br/>
+    <a href="JoshL_Resume.pdf" target="_blank" class="btn-resume mt-3"
+       style="border-color:#5ba3d9; color:#5ba3d9">
+      <i class="fas fa-file-pdf mr-1"></i> Download Résumé
+    </a>
+  </section>
+
+</div><!-- /main -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  /* Accordion toggle */
+  function toggleAccordion(btn, id) {
+    btn.classList.toggle('open');
+    var body = document.getElementById(id);
+    body.classList.toggle('show');
+  }
+
+  /* Active nav highlight on scroll */
+  var sections = document.querySelectorAll('section[id], div[id="stats"]');
+  var navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', function () {
+    var scrollY = window.pageYOffset + 100;
+    sections.forEach(function (sec) {
+      if (sec.offsetTop <= scrollY && sec.offsetTop + sec.offsetHeight > scrollY) {
+        navLinks.forEach(function (a) {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + sec.id) a.classList.add('active');
+        });
+      }
+    });
+  });
+
+  /* Smooth scroll */
+  navLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
